@@ -1,6 +1,34 @@
 CoordMode, Pixel, Screen
 CoordMode, Mouse, Screen
 
+; test
+; ^!t::
+;     WinGetTitle, ActiveTitle, A; 
+
+;     If (ActiveTitle = "2024 익시아/엘레노아-6") {; 
+
+;       
+;         WinGetPos, WinX, WinY, WinWidth, WinHeight, A
+;         ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\test2.png; 
+
+;         If (ErrorLevel = 0)
+;         {
+;             Click %FoundX%, %FoundY%
+;         }; 
+
+;         Sleep, 1100
+;         ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\test.png; 
+; 
+
+;         If (ErrorLevel = 0)
+;         {
+;             Click %FoundX%, %FoundY%; 
+
+;         }; 
+
+;     }
+; return
+
 
 
 ; 단축키 설정 (예: Ctrl+Alt+C)
@@ -19,14 +47,12 @@ CoordMode, Mouse, Screen
 return
 
 
-
-
-; 대기 및 클릭 함수
 WaitAndClick:
-    Loop
-    {
+    Loop {
         ; 현재 활성 창의 위치 가져오기
         WinGetPos, WinX, WinY, WinWidth, WinHeight, A
+
+        ; MsgBox, Window Position: %WinX% x %WinY%`nSize: %WinWidth% x %WinHeight%
 
         ; 이미지 찾기
         ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\start-btn.png
@@ -45,67 +71,46 @@ WaitAndClick:
 return
 
 setFight:
-{
-    Loop
+Loop {
+    WinGetPos, WinX, WinY, WinWidth, WinHeight, A
+    ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), *TransWhite *TransBlack *25 C:\Users\yangg\Desktop\wk-macro\ok.png
+    ; MsgBox, Window Position: %WinX% x %WinY%`nSize: %WinWidth% x %WinHeight%
+    If (ErrorLevel = 0)
     {
-        WinGetPos, WinX, WinY, WinWidth, WinHeight, A
+        Click %FoundX%, %FoundY%
 
-        ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\ok.png
-
-        If (ErrorLevel = 0)
-        {
-            Click %FoundX%, %FoundY%
-
-            GoSub breakDunjun
-            break
-        }
-
-        Sleep, 100
-
-        ; 왼쪽 마우스 버튼을 1초 동안 누르기
-        Click, % (WinX + WinWidth/2) " " (WinY + WinHeight/2) " down"
-        Sleep, 1000
-
-        ; 마우스를 2시 방향으로 100만큼 이동
-        MouseMove 100, -100, 5, R
-
-        ; 마우스 버튼 놓기
-        Click, up
+        GoSub breakDunjun
+        break
     }
+
+    Sleep, 100
+
+    ; 왼쪽 마우스 버튼을 1초 동안 누르기
+    Click, % (WinX + WinWidth/2) " " (WinY + WinHeight/2) " down"
+    Sleep, 1000
+
+    ; 마우스를 2시 방향으로 100만큼 이동
+    MouseMove 100, -100, 5, R
+
+    ; 마우스 버튼 놓기
+    Click, up
 }
+
 return
 
 breakDunjun:
-{
-    Loop
+Loop {
+    WinGetPos, WinX, WinY, WinWidth, WinHeight, A
+    ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\exit.png
+    If (ErrorLevel = 0)
     {
-        WinGetPos, WinX, WinY, WinWidth, WinHeight, A
-
-        ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\ok.png
-
-        Sleep, 1000
-
-        ; 왼쪽 마우스 버튼을 1초 동안 누르기
-        Click, down
-        Sleep, 1000
-
-        ; 마우스를 2시 방향으로 100만큼 이동
-        MouseMove 100, -100, 5, R
-
-        ; 마우스 버튼 놓기
-        Click, up, Left
-
-        If (ErrorLevel = 0)
-        {
-            Click %FoundX%, %FoundY%
-
-            GoSub breakDunjun
-            break
-        }
-
-        ; 이미지가 나타날 때까지 대기
-        Sleep, 500
+        Click %FoundX%, %FoundY%
+        GoSub WaitAndClick
+        break
     }
+
+    Click
+    Sleep, 500
 }
 return
 
