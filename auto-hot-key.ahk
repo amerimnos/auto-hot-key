@@ -101,7 +101,7 @@ return
 breakDunjun:
 Loop {
     WinGetPos, WinX, WinY, WinWidth, WinHeight, A
-    ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), C:\Users\yangg\Desktop\wk-macro\exit.png
+    ImageSearch, FoundX, FoundY, %WinX%, %WinY%, (WinX + WinWidth), (WinY + WinHeight), *TransWhite *TransBlack *25 C:\Users\yangg\Desktop\wk-macro\exit.png
     If (ErrorLevel = 0)
     {
         Click %FoundX%, %FoundY%
